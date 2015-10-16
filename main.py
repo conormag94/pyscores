@@ -3,8 +3,12 @@ import requests
 from tabulate import tabulate
 
 import leagues
+import secret
 
 BASE_URL = "http://api.football-data.org/alpha/"
+API_KEY = secret.secret_key
+
+headers = {'X-Auth-Token' : API_KEY}
 
 # Gets current league table from selected league and calls print function
 def get_standings(league):
@@ -14,7 +18,7 @@ def get_standings(league):
 		print "Error: No such league code"
 		
 	try:
-		resp = requests.get(request_url)
+		resp = requests.get(request_url, headers=headers)
 		data = resp.json()	
 		print_standings(data['standing'])
 	except:
@@ -35,7 +39,7 @@ def print_standings(table):
 	print tabulate(standings, headers=['Pos', 'Club', 'Played', 'Points'], tablefmt="rst")
 
 def main():
-	get_standings("EP")
+	get_standings("EPL")
 
 if __name__ == '__main__':
 	main()

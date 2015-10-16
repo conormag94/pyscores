@@ -5,10 +5,6 @@ from tabulate import tabulate
 import leagues
 
 BASE_URL = "http://api.football-data.org/alpha/"
-soccer_seasons = "soccerseasons/"
-
-epl_current_season = "soccerseasons/398/"
-league_table = "leagueTable/"
 
 # Gets current league table from selected league and calls print function
 def get_standings(league):

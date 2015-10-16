@@ -39,7 +39,7 @@ def print_standings(table):
 	print tabulate(standings, headers=['Pos', 'Club', 'Played', 'Points'], tablefmt="rst")
 
 def main():
-	get_standings("EPL")
+	get_standings("PL")
 
 if __name__ == '__main__':
 	main()

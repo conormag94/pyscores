@@ -16,3 +16,9 @@ Then run using
 ```
 python main.py
 ```
+
+##To-Do
+- [ ] Recent match results
+- [ ] Upcoming Fixtures
+- [ ] Teams information
+- [ ] Add setup file

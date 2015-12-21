@@ -3,7 +3,7 @@
 
 This is very much a work in progress and is currently being worked on.
 
--Written in python 2.7
+-Should work in python 2 or 3
 
 ##Setup
 **To use this you will need an api key from api.football-data.org. Without this the program will be limited to 50 requests per day.**
@@ -16,9 +16,7 @@ Then run using
 ```
 python main.py
 ```
-
-##To-Do
-- [ ] Recent match results
-- [ ] Upcoming Fixtures
-- [ ] Teams information
-- [ ] Add setup file
+Modules needed
+* requests
+* tabulate
+* termcolor

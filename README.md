@@ -14,8 +14,10 @@ secret_key = "YOUR KEY HERE"
 ```
 Then run using
 ```
-python main.py
+python pyscores.py PL
 ```
+where ` PL ` is the league code for the Premier League
+
 Modules needed
 * requests
 * tabulate

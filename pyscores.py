@@ -12,6 +12,35 @@ API_KEY = secret.secret_key
 
 headers = {'X-Auth-Token' : API_KEY}
 
+def get_fixtures(league):
+	if league in leagues.LEAGUE_IDS:
+		request_url = "{}soccerseasons/{}/fixtures?timeFrame=n7".format(BASE_URL, leagues.LEAGUE_IDS[league])
+	else:
+		print("Error: No such league code")
+
+	try:
+		resp = requests.get(request_url, headers=headers)
+		data = resp.json()
+		print_fixtures(data['fixtures'])
+	except:
+		print("Error retrieving fixtures")
+
+def print_fixtures(array):
+	current_matchday = array[0]['matchday']
+	fixtures = []
+	for fixture in array:
+		if fixture['matchday'] == current_matchday:
+			s = [
+				(fixture['date'][8:10] + '-' + fixture['date'][5:7]),
+				fixture['date'][11:16],
+				fixture['homeTeamName'],
+				'vs',
+				fixture['awayTeamName']
+			]
+			fixtures.append(s)
+	print(tabulate(fixtures, tablefmt="plain"))
+
+
 def get_past_results(league):
 	if league in leagues.LEAGUE_IDS:
 		request_url = "{}soccerseasons/{}/fixtures?timeFrame=p7".format(BASE_URL, leagues.LEAGUE_IDS[league])
@@ -23,7 +52,7 @@ def get_past_results(league):
 		data = resp.json()
 		print_results(data['fixtures'])
 	except:
-		print("Error retrieving recent fixtures")
+		print("Error retrieving recent results")
 
 def print_results(array):
 	results = []
@@ -45,7 +74,6 @@ def print_results(array):
 			s[0] = colored(s[0], 'yellow')
 			s[-1] = colored(s[-1], 'yellow')
 
-		#s = "{} {} vs {} {}".format(fixture['homeTeamName'], fixture['result']['goalsHomeTeam'], fixture['result']['goalsAwayTeam'], fixture['awayTeamName'])
 		results.append(s)
 	print(tabulate(results, tablefmt="plain"))
 
@@ -80,7 +108,8 @@ def print_standings(table):
 def main():
 	arg = sys.argv[1]
 	# get_standings(sys.argv[1])
-	get_past_results(arg)
+	#get_past_results(arg)
+	get_fixtures(arg)
 
 if __name__ == '__main__':
 	main()

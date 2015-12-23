@@ -14,7 +14,7 @@ headers = {'X-Auth-Token' : API_KEY}
 
 def get_fixtures(league):
 	if league in leagues.LEAGUE_IDS:
-		request_url = "{}soccerseasons/{}/fixtures?timeFrame=n7".format(BASE_URL, leagues.LEAGUE_IDS[league])
+		request_url = "{}soccerseasons/{}/fixtures?timeFrame=n60".format(BASE_URL, leagues.LEAGUE_IDS[league])
 	else:
 		print("Error: No such league code")
 
@@ -31,8 +31,8 @@ def print_fixtures(array):
 	for fixture in array:
 		if fixture['matchday'] == current_matchday:
 			s = [
-				(fixture['date'][8:10] + '-' + fixture['date'][5:7]),
-				fixture['date'][11:16],
+				colored(format_date(fixture['date']), 'cyan'),
+				colored(fixture['date'][11:16], 'blue'),
 				fixture['homeTeamName'],
 				'vs',
 				fixture['awayTeamName']
@@ -43,7 +43,7 @@ def print_fixtures(array):
 
 def get_past_results(league):
 	if league in leagues.LEAGUE_IDS:
-		request_url = "{}soccerseasons/{}/fixtures?timeFrame=p7".format(BASE_URL, leagues.LEAGUE_IDS[league])
+		request_url = "{}soccerseasons/{}/fixtures?timeFrame=p40".format(BASE_URL, leagues.LEAGUE_IDS[league])
 	else:
 		print("Error: No such league code")
 
@@ -55,26 +55,30 @@ def get_past_results(league):
 		print("Error retrieving recent results")
 
 def print_results(array):
+	current_matchday = array[0]['matchday']
 	results = []
 	for fixture in array:
-		s = [
-			fixture['homeTeamName'],
-			fixture['result']['goalsHomeTeam'],
-			'vs',
-			fixture['result']['goalsAwayTeam'],
-			fixture['awayTeamName']
-		]
-		if int(s[1]) > int(s[3]):
-			s[0] = colored(s[0], 'green')
-			s[-1] = colored(s[-1], 'red')
-		elif int(s[1]) < int(s[3]):
-			s[0] = colored(s[0], 'red')
-			s[-1] = colored(s[-1], 'green')
-		else:
-			s[0] = colored(s[0], 'yellow')
-			s[-1] = colored(s[-1], 'yellow')
+		if fixture['matchday'] == current_matchday:
+			s = [
+				colored(format_date(fixture['date']), 'cyan'),
+				colored(fixture['date'][11:16], 'blue'),
+				fixture['homeTeamName'],
+				fixture['result']['goalsHomeTeam'],
+				'vs',
+				fixture['result']['goalsAwayTeam'],
+				fixture['awayTeamName']
+			]
+			if int(s[3]) > int(s[5]):
+				s[2] = colored(s[2], 'green')
+				s[-1] = colored(s[-1], 'red')
+			elif int(s[3]) < int(s[5]):
+				s[2] = colored(s[2], 'red')
+				s[-1] = colored(s[-1], 'green')
+			else:
+				s[2] = colored(s[2], 'yellow')
+				s[-1] = colored(s[-1], 'yellow')
 
-		results.append(s)
+			results.append(s)
 	print(tabulate(results, tablefmt="plain"))
 
 # Gets current league table from selected league and calls print function
@@ -105,10 +109,14 @@ def print_standings(table):
 
 	print(tabulate(standings, headers=['Pos', 'Club', 'Played', 'Points'], tablefmt="rst"))
 
+def format_date(date_str):
+	months = {'01':'Jan', '02':'Feb', '03':'Mar', '04':'Apr', '05':'May', '06':'Jun', '07':'Jul', '08':'Aug', '09':'Sep', '10':'Oct', '11':'Nov', '12':'Dec'}
+	return (date_str[8:10] + " " + months[date_str[5:7]] + " " + date_str[:4])
+
 def main():
 	arg = sys.argv[1]
-	# get_standings(sys.argv[1])
-	#get_past_results(arg)
+	get_standings(sys.argv[1])
+	get_past_results(arg)
 	get_fixtures(arg)
 
 if __name__ == '__main__':

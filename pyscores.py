@@ -12,9 +12,9 @@ API_KEY = secret.secret_key
 
 headers = {'X-Auth-Token' : API_KEY}
 
-def get_fixtures(league):
+def get_fixtures(league, time_frame=40):
 	if league in leagues.LEAGUE_IDS:
-		request_url = "{}soccerseasons/{}/fixtures?timeFrame=n60".format(BASE_URL, leagues.LEAGUE_IDS[league])
+		request_url = "{}soccerseasons/{}/fixtures?timeFrame=n{}".format(BASE_URL, leagues.LEAGUE_IDS[league], time_frame)
 	else:
 		print("Error: No such league code")
 
@@ -40,10 +40,10 @@ def print_fixtures(array):
 			fixtures.append(s)
 	print(tabulate(fixtures, tablefmt="plain"))
 
-
-def get_past_results(league):
+# Gets results for the most recent matchday
+def get_past_results(league, time_frame=40):
 	if league in leagues.LEAGUE_IDS:
-		request_url = "{}soccerseasons/{}/fixtures?timeFrame=p40".format(BASE_URL, leagues.LEAGUE_IDS[league])
+		request_url = "{}soccerseasons/{}/fixtures?timeFrame=p{}".format(BASE_URL, leagues.LEAGUE_IDS[league], time_frame)
 	else:
 		print("Error: No such league code")
 
@@ -54,6 +54,7 @@ def get_past_results(league):
 	except:
 		print("Error retrieving recent results")
 
+# Prints and colour codes recent results
 def print_results(array):
 	current_matchday = array[0]['matchday']
 	results = []
@@ -101,13 +102,17 @@ def print_standings(table):
 	for team in table:
 		entry = [
 			team['position'],
-			team['teamName'],
+			team['teamName'].replace('AFC', '').replace('FC', ''),
 			team['playedGames'],
+			team['wins'],
+			team['draws'],
+			team['losses'],
+			team['goalDifference'],
 			team['points']
 		]
 		standings.append(entry)
 
-	print(tabulate(standings, headers=['Pos', 'Club', 'Played', 'Points'], tablefmt="rst"))
+	print(tabulate(standings, headers=['#', 'Team', 'Games', 'W', 'D', 'L', 'GD', 'Pts'], tablefmt="simple"))
 
 def format_date(date_str):
 	months = {'01':'Jan', '02':'Feb', '03':'Mar', '04':'Apr', '05':'May', '06':'Jun', '07':'Jul', '08':'Aug', '09':'Sep', '10':'Oct', '11':'Nov', '12':'Dec'}
@@ -116,8 +121,8 @@ def format_date(date_str):
 def main():
 	arg = sys.argv[1]
 	get_standings(sys.argv[1])
-	get_past_results(arg)
-	get_fixtures(arg)
+	# get_past_results(arg)
+	# get_fixtures(arg)
 
 if __name__ == '__main__':
 	main()

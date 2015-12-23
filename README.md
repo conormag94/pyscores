@@ -40,7 +40,7 @@ python pyscores.py --standings --league=PL
 python pyscores.py -s -l PL
 ```
 
-Modules needed
+##Python Modules needed
 * click
 * requests
 * tabulate

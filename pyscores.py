@@ -1,6 +1,7 @@
 import sys
 import json
 import requests
+import click
 from tabulate import tabulate
 from termcolor import colored
 
@@ -41,7 +42,7 @@ def print_fixtures(array):
 	print(tabulate(fixtures, tablefmt="plain"))
 
 # Gets results for the most recent matchday
-def get_past_results(league, time_frame=40):
+def get_results(league, time_frame=40):
 	if league in leagues.LEAGUE_IDS:
 		request_url = "{}soccerseasons/{}/fixtures?timeFrame=p{}".format(BASE_URL, leagues.LEAGUE_IDS[league], time_frame)
 	else:
@@ -118,11 +119,26 @@ def format_date(date_str):
 	months = {'01':'Jan', '02':'Feb', '03':'Mar', '04':'Apr', '05':'May', '06':'Jun', '07':'Jul', '08':'Aug', '09':'Sep', '10':'Oct', '11':'Nov', '12':'Dec'}
 	return (date_str[8:10] + " " + months[date_str[5:7]] + " " + date_str[:4])
 
-def main():
-	arg = sys.argv[1]
-	get_standings(sys.argv[1])
-	# get_past_results(arg)
-	# get_fixtures(arg)
+@click.command()
+@click.option('--standings', '-s', multiple=True, is_flag=True, help='Current league standings for a particular league')
+@click.option('--results', '-r', is_flag=True, help='Most recent matchday results')
+@click.option('--fixtures', '-f', is_flag=True, help='Upcoming fixtures for next matchday')
+@click.option('--league', '-l', help='Specified league code to retrieve results for', type=click.Choice(leagues.LEAGUE_IDS.keys()))
+def main(standings, results, fixtures, league):
+	try:
+		if league:
+			if standings:
+				get_standings(league)
+
+			if results:
+				get_results(league)
+
+			if fixtures:
+				get_fixtures(league)
+		else:
+			print("Please specify a league")
+	except:
+		print("Something went wrong")
 
 if __name__ == '__main__':
 	main()

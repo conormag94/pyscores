@@ -12,11 +12,33 @@ Once you have your key, in the same directory as __main.py__, create a file call
 ```python
 secret_key = "YOUR KEY HERE"
 ```
-Then run using
+##Usage
+######Depending on the installed version of python, it may be necessary to substitute `python` for `python3`.
+
+**Recent results**
 ```
-python pyscores.py PL
+python pyscores.py --results --league=PL
+```
+```
+python pyscores.py -r -l PL
 ```
 where ` PL ` is the league code for the Premier League
+
+**Fixtures for next matchday**
+```
+python pyscores.py --fixtures --league=PL
+```
+```
+python pyscores.py -f -l PL
+```
+
+**League standings**
+```
+python pyscores.py --standings --league=PL
+```
+```
+python pyscores.py -s -l PL
+```
 
 Modules needed
 * click

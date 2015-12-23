@@ -1,7 +1,7 @@
 # pyscores
 ######A command line based python program to get football fixtures, results and standings.
 
-This is very much a work in progress and is currently being worked on.
+This is very much a work in progress and is currently being worked on. It was inspired by another trending repo I saw on github. I wanted to see if I could do my own implementation of it, as a learning exercise.
 
 -Should work in python 2 or 3
 
@@ -19,6 +19,7 @@ python pyscores.py PL
 where ` PL ` is the league code for the Premier League
 
 Modules needed
+* click
 * requests
 * tabulate
 * termcolor

@@ -1,7 +1,7 @@
 # pyscores
 ######A command line based python program to get football fixtures, results and standings.
 
-This is very much a work in progress and is currently being worked on.
+This is very much a work in progress and is currently being worked on. It was inspired by another trending repo I saw on github. I wanted to see if I could do my own implementation of it, as a learning exercise.
 
 -Should work in python 2 or 3
 
@@ -12,13 +12,36 @@ Once you have your key, in the same directory as __main.py__, create a file call
 ```python
 secret_key = "YOUR KEY HERE"
 ```
-Then run using
+##Usage
+######Depending on the installed version of python, it may be necessary to substitute `python` for `python3`.
+
+**Recent results**
 ```
-python pyscores.py PL
+python pyscores.py --results --league=PL
+```
+```
+python pyscores.py -r -l PL
 ```
 where ` PL ` is the league code for the Premier League
 
-Modules needed
+**Fixtures for next matchday**
+```
+python pyscores.py --fixtures --league=PL
+```
+```
+python pyscores.py -f -l PL
+```
+
+**League standings**
+```
+python pyscores.py --standings --league=PL
+```
+```
+python pyscores.py -s -l PL
+```
+
+##Python Modules needed
+* click
 * requests
 * tabulate
 * termcolor

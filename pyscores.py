@@ -8,7 +8,7 @@ from termcolor import colored
 import leagues
 import secret
 
-BASE_URL = "http://api.football-data.org/alpha/"
+BASE_URL = "http://api.football-data.org/v1/"
 API_KEY = secret.secret_key
 
 headers = {'X-Auth-Token' : API_KEY}
@@ -42,9 +42,9 @@ def print_fixtures(array):
 	print(tabulate(fixtures, tablefmt="plain"))
 
 # Gets results for the most recent matchday
-def get_results(league, time_frame=40):
+def get_results(league, time_frame=7):
 	if league in leagues.LEAGUE_IDS:
-		request_url = "{}soccerseasons/{}/fixtures?timeFrame=p{}".format(BASE_URL, leagues.LEAGUE_IDS[league], time_frame)
+		request_url = "{}soccerseasons/{}/fixtures?timeFrame=p7".format(BASE_URL, leagues.LEAGUE_IDS[league])
 	else:
 		print("Error: No such league code")
 
@@ -57,27 +57,25 @@ def get_results(league, time_frame=40):
 
 # Prints and colour codes recent results
 def print_results(array):
-	current_matchday = array[0]['matchday']
 	results = []
 	for fixture in array:
-		if fixture['matchday'] == current_matchday:
+		if fixture['status'] == 'FINISHED':
 			s = [
 				colored(format_date(fixture['date']), 'cyan'),
-				colored(fixture['date'][11:16], 'blue'),
 				fixture['homeTeamName'],
 				fixture['result']['goalsHomeTeam'],
 				'vs',
 				fixture['result']['goalsAwayTeam'],
 				fixture['awayTeamName']
 			]
-			if int(s[3]) > int(s[5]):
-				s[2] = colored(s[2], 'green')
+			if int(s[2]) > int(s[4]):
+				s[1] = colored(s[1], 'green')
 				s[-1] = colored(s[-1], 'red')
-			elif int(s[3]) < int(s[5]):
-				s[2] = colored(s[2], 'red')
+			elif int(s[2]) < int(s[4]):
+				s[1] = colored(s[1], 'red')
 				s[-1] = colored(s[-1], 'green')
 			else:
-				s[2] = colored(s[2], 'yellow')
+				s[1] = colored(s[1], 'yellow')
 				s[-1] = colored(s[-1], 'yellow')
 
 			results.append(s)

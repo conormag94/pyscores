@@ -2,3 +2,5 @@ secret.py
 secret.pyc
 secret.*
 __pycache__/*
+get_teams.py
+*.txt

@@ -1,3 +1,4 @@
+#!/usr/local/bin/python3
 import sys
 import json
 import requests
@@ -44,7 +45,7 @@ def print_fixtures(array):
 # Gets results for the most recent matchday
 def get_results(league, time_frame=7):
 	if league in leagues.LEAGUE_IDS:
-		request_url = "{}soccerseasons/{}/fixtures?timeFrame=p7".format(BASE_URL, leagues.LEAGUE_IDS[league])
+		request_url = "{}soccerseasons/{}/fixtures?timeFrame=p{}".format(BASE_URL, leagues.LEAGUE_IDS[league], time_frame)
 	else:
 		print("Error: No such league code")
 
@@ -59,12 +60,13 @@ def get_results(league, time_frame=7):
 def print_results(array):
 	results = []
 	for fixture in array:
-		if fixture['status'] == 'FINISHED':
+		res = fixture['result']['goalsHomeTeam']
+		if res is not -1:
 			s = [
 				colored(format_date(fixture['date']), 'cyan'),
 				fixture['homeTeamName'],
 				fixture['result']['goalsHomeTeam'],
-				'vs',
+				'-',
 				fixture['result']['goalsAwayTeam'],
 				fixture['awayTeamName']
 			]
@@ -87,10 +89,10 @@ def get_standings(league):
 		request_url = "{}soccerseasons/{}/leagueTable".format(BASE_URL, leagues.LEAGUE_IDS[league])
 	else:
 		print("Error: No such league code")
-		
+
 	try:
 		resp = requests.get(request_url, headers=headers)
-		data = resp.json()	
+		data = resp.json()
 		print_standings(data['standing'])
 	except:
 		print("Error retrieving selected league table...")

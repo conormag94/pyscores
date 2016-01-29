@@ -24,7 +24,7 @@ python pyscores.py -r -l PL
 ```
 where ` PL ` is the league code for the Premier League
 
-![alt text](http://i.imgur.com/z9sCEXi.png "Results Output")
+![alt text] (https://github.com/conormag94/pyscores/raw/master/assets/results.png "Results Output")
 
 **Fixtures for next matchday**
 ```
@@ -33,7 +33,7 @@ python pyscores.py --fixtures --league=PL
 ```
 python pyscores.py -f -l PL
 ```
-![alt text](http://i.imgur.com/1YqY0vp.png "Fixtures Output")
+![alt text](https://github.com/conormag94/pyscores/raw/master/assets/fixtures.png "Fixtures Output")
 
 **League standings**
 ```
@@ -42,7 +42,7 @@ python pyscores.py --standings --league=PL
 ```
 python pyscores.py -s -l PL
 ```
-![alt text](http://i.imgur.com/DgvLRyN.png "Standings Output")
+![alt text](https://github.com/conormag94/pyscores/raw/master/assets/standings.png "Standings Output")
 
 
 ##Python Modules needed

@@ -6,7 +6,7 @@ import click
 from tabulate import tabulate
 from termcolor import colored
 
-import leagues
+import config
 import secret
 
 BASE_URL = "http://api.football-data.org/v1/"
@@ -15,8 +15,8 @@ API_KEY = secret.secret_key
 headers = {'X-Auth-Token' : API_KEY}
 
 def get_fixtures(league, time_frame=40):
-	if league in leagues.LEAGUE_IDS:
-		request_url = "{}soccerseasons/{}/fixtures?timeFrame=n{}".format(BASE_URL, leagues.LEAGUE_IDS[league], time_frame)
+	if league in config.LEAGUE_IDS:
+		request_url = "{}soccerseasons/{}/fixtures?timeFrame=n{}".format(BASE_URL, config.LEAGUE_IDS[league], time_frame)
 	else:
 		print("Error: No such league code")
 
@@ -44,15 +44,18 @@ def print_fixtures(array):
 
 # Gets results for the most recent matchday
 def get_results(league, time_frame=7):
-	if league in leagues.LEAGUE_IDS:
-		request_url = "{}soccerseasons/{}/fixtures?timeFrame=p{}".format(BASE_URL, leagues.LEAGUE_IDS[league], time_frame)
+	if league in config.LEAGUE_IDS:
+		request_url = "{}soccerseasons/{}/fixtures?timeFrame=p{}".format(BASE_URL, config.LEAGUE_IDS[league], time_frame)
 	else:
 		print("Error: No such league code")
 
 	try:
 		resp = requests.get(request_url, headers=headers)
 		data = resp.json()
-		print_results(data['fixtures'])
+		if data['count'] == 0:
+			print("API returned 0 results for last {} days".format(time_frame))
+		else:
+			print_results(data['fixtures'])
 	except:
 		print("Error retrieving recent results")
 
@@ -85,8 +88,8 @@ def print_results(array):
 
 # Gets current league table from selected league and calls print function
 def get_standings(league):
-	if league in leagues.LEAGUE_IDS:
-		request_url = "{}soccerseasons/{}/leagueTable".format(BASE_URL, leagues.LEAGUE_IDS[league])
+	if league in config.LEAGUE_IDS:
+		request_url = "{}soccerseasons/{}/leagueTable".format(BASE_URL, config.LEAGUE_IDS[league])
 	else:
 		print("Error: No such league code")
 
@@ -123,7 +126,7 @@ def format_date(date_str):
 @click.option('--standings', '-s', multiple=True, is_flag=True, help='Current league standings for a particular league')
 @click.option('--results', '-r', is_flag=True, help='Most recent matchday results')
 @click.option('--fixtures', '-f', is_flag=True, help='Upcoming fixtures for next matchday')
-@click.option('--league', '-l', help='Specified league code to retrieve results for', type=click.Choice(leagues.LEAGUE_IDS.keys()))
+@click.option('--league', '-l', help='Specified league code to retrieve results for', type=click.Choice(config.LEAGUE_IDS.keys()))
 def main(standings, results, fixtures, league):
 	try:
 		if league:

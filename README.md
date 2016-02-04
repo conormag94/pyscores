@@ -35,6 +35,15 @@ python pyscores.py -f -l PL
 ```
 ![alt text](https://github.com/conormag94/pyscores/raw/master/assets/fixtures.png "Fixtures Output")
 
+**Specifying number of days for Fixtures or Results**
+```
+python pyscores.py --fixtures --league=PL --days=20
+```
+```
+python pyscores.py -f -l PL -d 20
+```
+The days argument is optional and will default to 7 if not specified.
+
 **League standings**
 ```
 python pyscores.py --standings --league=PL

@@ -10,7 +10,11 @@ import config
 import secret
 
 BASE_URL = "http://api.football-data.org/v1/"
-API_KEY = secret.secret_key
+try:
+	API_KEY = secret.secret_key
+except:
+	API_KEY = ''
+	print("Warning: No API key found. You will be limited to 50 API calls per day")
 
 headers = {'X-Auth-Token' : API_KEY}
 

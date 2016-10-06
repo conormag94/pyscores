@@ -1,4 +1,4 @@
-# pyscores
+# pyscores (https://travis-ci.org/conormag94/pyscores.svg?branch=master)
 ######A command line based python program to get football fixtures, results and standings.
 
 This is a work in progress. It was inspired by another trending repo I saw on github. I wanted to see if I could do my own implementation of it, as a learning exercise.

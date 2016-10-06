@@ -1,0 +1,8 @@
+language: python
+python:
+  - "3.4"
+  - "3.5"
+# Install dependencies
+install: pip install -r requirements.txt
+# Run
+script: python pyscores.py -s -l PL 

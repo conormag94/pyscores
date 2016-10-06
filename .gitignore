@@ -3,4 +3,6 @@ secret.pyc
 secret.*
 __pycache__/*
 get_teams.py
-*.txt
+team_names.txt
+team_ids.txt
+teams.txt

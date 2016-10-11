@@ -6,3 +6,4 @@ get_teams.py
 team_names.txt
 team_ids.txt
 teams.txt
+*.pyc

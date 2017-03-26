@@ -9,12 +9,10 @@ from termcolor import colored
 
 import config
 
-#import secret
 
 BASE_URL = "http://api.football-data.org/v1/"
 try:
-    API_KEY = os.environ['PYSCORES_KEY']	
-    #API_KEY = secret.secret_key
+    API_KEY = os.environ['PYSCORES_KEY']
 except:
 	API_KEY = ''
 	print("Warning: No API key found. You will be limited to 50 API calls per day")

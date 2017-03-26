@@ -9,3 +9,5 @@ teams.txt
 *.pyc
 .idea/
 scores_venv/
+dist/
+*.egg-info

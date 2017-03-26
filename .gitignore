@@ -7,3 +7,5 @@ team_names.txt
 team_ids.txt
 teams.txt
 *.pyc
+.idea/
+scores_venv/

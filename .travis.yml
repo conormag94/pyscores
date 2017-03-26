@@ -6,4 +6,4 @@ python:
 # Install dependencies
 install: pip install -r requirements.txt
 # Run
-script: python pyscores.py -s -l PL 
+script: python pyscores/pyscores.py -s -l PL

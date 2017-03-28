@@ -7,7 +7,7 @@ import click
 from tabulate import tabulate
 from termcolor import colored
 
-import config
+from pyscores import config
 
 BASE_URL = "http://api.football-data.org/v1/"
 try:

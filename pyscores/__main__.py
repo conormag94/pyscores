@@ -83,7 +83,7 @@ def print_standings(table):
 
 def get_fixtures(league, time_frame=7):
     if league in config.LEAGUE_IDS:
-        request_url = "{}soccerseasons/{}/fixtures?timeFrame=n{}".format(BASE_URL, config.LEAGUE_IDS[league],
+        request_url = "{}competitions/{}/fixtures?timeFrame=n{}".format(BASE_URL, config.LEAGUE_IDS[league],
                                                                          time_frame)
     else:
         print("Error: No such league code")
@@ -102,7 +102,7 @@ def get_fixtures(league, time_frame=7):
 # Gets results for the most recent matchday
 def get_results(league, time_frame=7):
     if league in config.LEAGUE_IDS:
-        request_url = "{}soccerseasons/{}/fixtures?timeFrame=p{}".format(BASE_URL, config.LEAGUE_IDS[league],
+        request_url = "{}competitions/{}/fixtures?timeFrame=p{}".format(BASE_URL, config.LEAGUE_IDS[league],
                                                                          time_frame)
     else:
         print("Error: No such league code")
@@ -121,7 +121,7 @@ def get_results(league, time_frame=7):
 # Gets current league table from selected league and calls print function
 def get_standings(league):
     if league in config.LEAGUE_IDS:
-        request_url = "{}soccerseasons/{}/leagueTable".format(BASE_URL, config.LEAGUE_IDS[league])
+        request_url = "{}competitions/{}/leagueTable".format(BASE_URL, config.LEAGUE_IDS[league])
     else:
         print("Error: No such league code")
 

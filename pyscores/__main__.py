@@ -1,7 +1,5 @@
-#!/usr/local/bin/python3
-import sys
 import os
-import json
+
 import requests
 import click
 from tabulate import tabulate
@@ -10,9 +8,10 @@ from termcolor import colored
 from pyscores import config
 
 BASE_URL = "http://api.football-data.org/v1/"
+
 try:
     API_KEY = os.environ['PYSCORES_KEY']
-except:
+except KeyError:
     API_KEY = ''
     print("Warning: No API key found. You will be limited to 50 API calls per day")
 

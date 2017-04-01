@@ -19,15 +19,22 @@ class APIWrapper(object):
             self.headers = {}
 
     def _request(self, url, filters=None):
+        """
+        Send a GET request to the API and return the JSON result.
+        
+        :param url: The URL of the API endpoint to be queried.
+        :param filters: A dict of optional filters(params) to include in the request.
+        :return: The JSON response of the request 
+        """
         params = filters if filters else {}
         r = requests.get(url=url, params=params, headers=self.headers)
         if r.status_code == requests.codes.ok:
             return r.json()
         return None
 
-    def all_competitions(self):
+    def all_competitions(self, filters=None):
         url = "{0}/competitions".format(self.base_url)
-        response = self._request(url=url)
+        response = self._request(url=url, filters=filters)
         return response
 
     def competition(self, competition_id):
@@ -41,10 +48,16 @@ class APIWrapper(object):
         url = "{0}/competitions/{1}/teams".format(self.base_url, competition_id)
         return self._request(url=url)
 
-    def competition_fixtures(self, competition_id):
-        """Return a JSON list of all fixtures, past and present, in a competition."""
+    def competition_fixtures(self, competition_id, filters=None):
+        """
+        Return a JSON list of all fixtures, past and present, in a competition.
+        
+        Filters:
+        - timeFrame
+        - matchday
+        """
         url = "{0}/competitions/{1}/fixtures".format(self.base_url, competition_id)
-        return self._request(url=url)
+        return self._request(url=url, filters=filters)
 
     def competition_table(self, competition_id, filters=None):
         """
@@ -55,6 +68,15 @@ class APIWrapper(object):
         """
         url = "{0}/competitions/{1}/leagueTable".format(self.base_url, competition_id)
         return self._request(url=url, filters=filters)
+
+    def team_search(self, name):
+        """
+        Search for a team by name.
+        
+        Return a JSON object which contains a list of search results matching the name.
+        """
+        url = "{0}/teams".format(self.base_url)
+        return self._request(url=url, filters={'name': name})
 
     def team(self, team_id):
         """Return a JSON object for a team by id."""
@@ -79,6 +101,30 @@ class APIWrapper(object):
         - venue=home    -> Show only home or away fixtures
         """
         url = "{0}/teams/{1}/fixtures".format(self.base_url, team_id)
+        return self._request(url=url, filters=filters)
+
+    def all_fixtures(self, filters=None):
+        """
+        Return a list of fixtures across a set of competitions.
+        
+        Filters:
+        - timeFrame
+        - league
+        """
+        url = "{0}/fixtures".format(self.base_url)
+        return self._request(url=url, filters=filters)
+
+    def fixture(self, fixture_id, filters=None):
+        """
+        Return a fixture by its id.
+        
+        A fixture will contain the latest fixture between two teams, as well as
+        past fixtures between those two same teams.
+        
+        Filters:
+        - head2head=15  -> Show the last 15 fixtures between the teams (default 10)
+        """
+        url = "{0}/fixtures/{1}".format(self.base_url, fixture_id)
         return self._request(url=url, filters=filters)
 
 

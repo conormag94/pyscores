@@ -1,4 +1,5 @@
-# Pyscores: Football scores, fixtures and standings in your terminal 
+Pyscores: Football scores and data in your terminal 
+===================================================
 [![Build Status](https://travis-ci.org/conormag94/pyscores.svg?branch=master)](https://travis-ci.org/conormag94/pyscores)
 
 **Pyscores is a command line based python program to get football fixtures, results and standings.**

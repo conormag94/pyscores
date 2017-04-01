@@ -10,7 +10,7 @@ setup(name='pyscores',
       packages=find_packages(),
       entry_points={
           'console_scripts': [
-              'scores=pyscores.__main__:main'
+              'scores=pyscores.cli:main'
           ]
       },
       install_requires=[

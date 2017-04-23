@@ -8,6 +8,6 @@ team_ids.txt
 teams.txt
 *.pyc
 .idea/
-scores_venv/
+venv/
 dist/
 *.egg-info

@@ -6,8 +6,7 @@ from tabulate import tabulate
 from termcolor import colored
 
 from pyscores import config
-
-BASE_URL = "http://api.football-data.org/v1/"
+from pyscores import api_wrapper
 
 try:
     API_KEY = os.environ['PYSCORES_KEY']
@@ -15,7 +14,7 @@ except KeyError:
     API_KEY = ''
     print("Warning: No API key found. You will be limited to 50 API calls per day")
 
-headers = {'X-Auth-Token': API_KEY}
+api = api_wrapper.APIWrapper(base_url=config.BASE_URL, auth_token=API_KEY)
 
 
 def print_fixtures(array):
@@ -82,55 +81,42 @@ def print_standings(table):
 
 
 def get_fixtures(league, time_frame=7):
-    if league in config.LEAGUE_IDS:
-        request_url = "{}competitions/{}/fixtures?timeFrame=n{}".format(BASE_URL,
-                                                                        config.LEAGUE_IDS[league],
-                                                                        time_frame)
-    else:
-        print("Error: No such league code")
+    filters = {"timeFrame": "n{0}".format(time_frame)}
 
     try:
-        resp = requests.get(request_url, headers=headers)
-        data = resp.json()
-        if data['count'] == 0:
-            print("API returned 0 fixtures within next {} days".format(time_frame))
+        competition_id = config.LEAGUE_IDS[league]
+        fixtures = api.competition_fixtures(competition_id, filters)
+        if fixtures['count'] == 0:
+            print("API returned 0 results within next {} days".format(time_frame))
         else:
-            print_fixtures(data['fixtures'])
-    except:
-        print("Error retrieving fixtures")
+            print_fixtures(fixtures['fixtures'])
+    except Exception as e:
+        print(e)
+        print("Error retrieving upcoming fixtures")
 
 
-# Gets results for the most recent matchday
 def get_results(league, time_frame=7):
-    if league in config.LEAGUE_IDS:
-        request_url = "{}competitions/{}/fixtures?timeFrame=p{}".format(BASE_URL, config.LEAGUE_IDS[league],
-                                                                         time_frame)
-    else:
-        print("Error: No such league code")
+    filters = {"timeFrame": "p{0}".format(time_frame)}
 
     try:
-        resp = requests.get(request_url, headers=headers)
-        data = resp.json()
-        if data['count'] == 0:
+        competition_id = config.LEAGUE_IDS[league]
+        results = api.competition_fixtures(competition_id, filters)
+        if results['count'] == 0:
             print("API returned 0 results within last {} days".format(time_frame))
         else:
-            print_results(data['fixtures'])
-    except:
+            print_results(results['fixtures'])
+    except Exception as e:
+        print(e)
         print("Error retrieving recent results")
 
 
-# Gets current league table from selected league and calls print function
 def get_standings(league):
-    if league in config.LEAGUE_IDS:
-        request_url = "{}competitions/{}/leagueTable".format(BASE_URL, config.LEAGUE_IDS[league])
-    else:
-        print("Error: No such league code")
-
     try:
-        resp = requests.get(request_url, headers=headers)
-        data = resp.json()
-        print_standings(data['standing'])
-    except:
+        competition_id = config.LEAGUE_IDS[league]
+        standings = api.competition_table(competition_id)
+        print_standings(standings["standing"])
+    except Exception as e:
+        print(e)
         print("Error retrieving selected league table...")
 
 
@@ -155,10 +141,10 @@ def main(standings, results, fixtures, league, days):
                 get_standings(league)
 
             if results:
-                get_results(league, days)
+                get_results(league, time_frame=days)
 
             if fixtures:
-                get_fixtures(league, days)
+                get_fixtures(league, time_frame=days)
         else:
             print("Please specify a league")
     except:

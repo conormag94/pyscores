@@ -10,4 +10,5 @@ teams.txt
 .idea/
 venv/
 dist/
+build/
 *.egg-info

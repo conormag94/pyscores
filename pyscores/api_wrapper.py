@@ -33,6 +33,12 @@ class APIWrapper(object):
         return None
 
     def all_competitions(self, filters=None):
+        """
+        Return a list of competitions (defaults to competitions in current season).
+        
+        Filters:
+        - season
+        """
         url = "{0}/competitions".format(self.base_url)
         response = self._request(url=url, filters=filters)
         return response

@@ -8,6 +8,7 @@ team_ids.txt
 teams.txt
 *.pyc
 .idea/
+.vscode/
 venv/
 dist/
 build/

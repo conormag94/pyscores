@@ -1,6 +1,6 @@
 import os
 
-import requests
+import pendulum
 import click
 from tabulate import tabulate
 from termcolor import colored
@@ -24,7 +24,6 @@ def print_fixtures(array):
         if fixture['matchday'] == current_matchday:
             s = [
                 colored(format_date(fixture['date']), 'cyan'),
-                colored(fixture['date'][11:16], 'blue'),
                 fixture['homeTeamName'],
                 'vs',
                 fixture['awayTeamName']
@@ -121,9 +120,8 @@ def get_standings(league):
 
 
 def format_date(date_str):
-    months = {'01': 'Jan', '02': 'Feb', '03': 'Mar', '04': 'Apr', '05': 'May', '06': 'Jun', '07': 'Jul', '08': 'Aug',
-              '09': 'Sep', '10': 'Oct', '11': 'Nov', '12': 'Dec'}
-    return (date_str[8:10] + " " + months[date_str[5:7]] + " " + date_str[:4])
+    datetime = pendulum.parse(date_str)
+    return datetime.strftime('%a, %d %b %Y, %H:%M')
 
 
 @click.command()
@@ -133,7 +131,8 @@ def format_date(date_str):
 @click.option('--fixtures', '-f', is_flag=True, help='Upcoming fixtures for next matchday')
 @click.option('--league', '-l', help='Specific league code to retrieve results for',
               type=click.Choice(config.LEAGUE_IDS.keys()))
-@click.option('--days', '-d', default=7, help="Number of days for which to fetch results/fixtures (Default = 7)")
+@click.option('--days', '-d', default=7,
+              help="Number of days for which to fetch results/fixtures (Default = 7)")
 def main(standings, results, fixtures, league, days):
     try:
         if league:

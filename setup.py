@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(name='pyscores',
-      version='0.3',
+      version='0.4',
       description='Football (soccer) scores in your command line',
       url='https://github.com/conormag94/pyscores',
       author='Conor Maguire',

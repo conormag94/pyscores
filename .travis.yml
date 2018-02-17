@@ -8,4 +8,13 @@ python:
 # Install dependencies
 install: pip install .
 # Run
-script: scores --standings --league PL
+script: scores --help
+
+script: scores standings --help
+script: scores standings --league PL
+
+script: scores fixtures --help
+script: scores fixtures --league PL
+
+script: scores results --help
+script: scores results --league PL

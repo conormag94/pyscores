@@ -7,6 +7,10 @@ python:
   - "3.6"
 # Install dependencies
 install: pip install .
+
+# Run unit tests
+script: python -m unittest discover --start-directory tests
+
 # Run
 script: scores --help
 

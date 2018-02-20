@@ -28,10 +28,10 @@ scores --help
 
 **Recent results**
 ```
-scores --results --league=PL
+scores results --league=PL
 ```
 ```
-scores -r -l PL
+scores results -l PL
 ```
 where ` PL ` is the league code for the Premier League
 
@@ -39,28 +39,28 @@ where ` PL ` is the league code for the Premier League
 
 **Fixtures for next matchday**
 ```
-scores --fixtures --league=PL
+scores fixtures --league=PL
 ```
 ```
-scores -f -l PL
+scores fixtures -l PL
 ```
 ![alt text](https://github.com/conormag94/pyscores/raw/master/assets/fixtures.png "Fixtures Output")
 
 **Specifying number of days for Fixtures or Results**
 ```
-scores --results --league=PL --days=20
+scores results --league=PL --days=20
 ```
 ```
-scores -r -l PL -d 20
+scores results -l PL -d 20
 ```
 The days argument is optional and will default to 7 if not specified.
 
 **League standings**
 ```
-scores --standings --league=PL
+scores standings --league=PL
 ```
 ```
-scores -s -l PL
+scores standings -l PL
 ```
 ![alt text](https://github.com/conormag94/pyscores/raw/master/assets/standings.png "Standings Output")
 

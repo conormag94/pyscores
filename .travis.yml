@@ -8,17 +8,15 @@ python:
 # Install dependencies
 install: pip install .
 
-# Run unit tests
-script: python -m unittest discover --start-directory tests
+script:
+  # Run unit tests
+  - python -m unittest discover --start-directory tests
 
-# Run
-script: scores --help
-
-script: scores standings --help
-script: scores standings --league PL
-
-script: scores fixtures --help
-script: scores fixtures --league PL
-
-script: scores results --help
-script: scores results --league PL
+  # Run
+  - scores --help
+  - scores standings --help
+  - scores standings --league PL
+  - scores fixtures --help
+  - scores fixtures --league PL
+  - scores results --help
+  - scores results --league PL

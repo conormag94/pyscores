@@ -96,6 +96,10 @@ def main():
               type=click.Choice(config.LEAGUE_IDS.keys()))
 def standings(league):
     """Current standings (league table) for a given league."""
+    if not league:
+        print("Please specify a league")
+        return
+
     try:
         competition_id = config.LEAGUE_IDS[league]
         current_standings = api.competition_table(competition_id)
@@ -112,6 +116,10 @@ def standings(league):
               help='Number of days for which to fetch fixtures. Defaults to next 7 days')
 def fixtures(league, days):
     """Upcoming fixtures for a given league."""
+    if not league:
+        print("Please specify a league")
+        return
+
     filters = {"timeFrame": "n{0}".format(days)}
 
     try:
@@ -133,6 +141,10 @@ def fixtures(league, days):
               help='Number of days for which to fetch results. Defaults to previous 7 days')
 def results(league, days):
     """Recent results for a given league."""
+    if not league:
+        print("Please specify a league")
+        return
+    
     filters = {"timeFrame": "p{0}".format(days)}
 
     try:
